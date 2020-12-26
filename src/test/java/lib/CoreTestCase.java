@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import lib.ui.WelcomePageObject;
 import org.openqa.selenium.ScreenOrientation;
 
-//import java.time.Duration;
+import java.time.Duration;
 
 public class CoreTestCase extends TestCase {
 
@@ -37,11 +37,11 @@ public class CoreTestCase extends TestCase {
         driver.rotate(ScreenOrientation.LANDSCAPE);
     }
 
-//    protected void backgroundApp(Duration seconds)
-//    {
-//        driver.runAppInBackground(seconds);
-//
-//    }
+    protected void backgroundApp(Duration seconds)
+    {
+        driver.runAppInBackground(seconds);
+
+    }
 
     private void skipWelcomeScreenForIOSApp()
     {
