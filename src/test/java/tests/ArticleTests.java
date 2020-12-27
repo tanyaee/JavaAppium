@@ -47,7 +47,12 @@ public class ArticleTests extends CoreTestCase {
         SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
 
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
-        ArticlePageObject.waitForTitleElement();
+        if(Platform.getInstance().isAndroid()){
+            ArticlePageObject.waitForTitleElement();
+
+        } else {
+            ArticlePageObject.waitForTitleElementIOS("Java (programming language)");
+        }
         ArticlePageObject.swipeToFooter();
 
     }
@@ -63,7 +68,12 @@ public class ArticleTests extends CoreTestCase {
         SearchPageObject.typeSearchLine(search_line);
         SearchPageObject.clickByArticleWithSubstring(search_line);
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
-        ArticlePageObject.waitForTitleElement();
+        if(Platform.getInstance().isAndroid()){
+            ArticlePageObject.waitForTitleElement();
+
+        } else {
+            ArticlePageObject.waitForTitleElementIOS(search_line);
+        }
         ArticlePageObject.checkArticleTitlePresent(search_line);
 
     }

@@ -1,6 +1,7 @@
 package tests;
 
 import lib.CoreTestCase;
+import lib.Platform;
 import lib.ui.ArticlePageObject;
 import lib.ui.SearchPageObject;
 import lib.ui.factories.ArticlePageObjectFactory;
@@ -21,11 +22,23 @@ public class ChangeAppConditionsTests extends CoreTestCase {
 
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
 
-        String title_before_rotation = ArticlePageObject.getArticleTitle();
-
+        String title_before_rotation;
+        if (Platform.getInstance().isAndroid()){
+            title_before_rotation = ArticlePageObject.getArticleTitle();
+        } else {
+            ArticlePageObject.waitForTitleElementIOS("Java (programming language)");
+            title_before_rotation = ArticlePageObject.getArticleTitleIOS("Java (programming language)");
+        }
         this.rotateScreenLandscape();
 
-        String title_after_rotation = ArticlePageObject.getArticleTitle();
+        String title_after_rotation;
+
+        if (Platform.getInstance().isAndroid()){
+            title_after_rotation = ArticlePageObject.getArticleTitle();
+        } else {
+            ArticlePageObject.waitForTitleElementIOS("Java (programming language)");
+            title_after_rotation = ArticlePageObject.getArticleTitleIOS("Java (programming language)");
+        }
 
         assertEquals(
                 "Article title have been changed after screen rotation",
@@ -34,8 +47,15 @@ public class ChangeAppConditionsTests extends CoreTestCase {
         );
 
         this.rotateScreenPortrait();
-        String title_after_second_rotation = ArticlePageObject.getArticleTitle();
+        String title_after_second_rotation;
 
+        if (Platform.getInstance().isAndroid()){
+            title_after_second_rotation = ArticlePageObject.getArticleTitle();
+        } else {
+            ArticlePageObject.waitForTitleElementIOS("Java (programming language)");
+
+            title_after_second_rotation = ArticlePageObject.getArticleTitleIOS("Java (programming language)");
+        }
         assertEquals(
                 "Article title have been changed after screen rotation",
                 title_before_rotation,

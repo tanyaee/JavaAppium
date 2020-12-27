@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -93,7 +94,7 @@ abstract public class SearchPageObject extends MainPageObject {
     {
         this.waitForElementPresent(
                 SEARCH_RESULT_ELEMENT,
-                "Cannot find anythyng by the request",
+                "Cannot find anything by the request",
                 15
         );
 
@@ -102,11 +103,22 @@ abstract public class SearchPageObject extends MainPageObject {
 
     public void waitForSearchFieldHint(String expected_hint)
     {
-        this.assertElementHasText(
-                SEARCH_INIT_ELEMENT,
-                expected_hint,
-                "'Search' field contains unexpected hint"
-        );
+
+        if(Platform.getInstance().isIOS()){
+            WebElement element =this.waitForElementPresent(SEARCH_INIT_ELEMENT, "Cannot find element with provided locator", 4);
+            this.assertElementContainsText(
+                    element,
+                    expected_hint,
+                    "'Search' field contains unexpected hint"
+            );
+        } else {
+            this.assertElementHasText(
+                    SEARCH_INIT_ELEMENT,
+                    expected_hint,
+                    "'Search' field contains unexpected hint"
+            );
+        }
+
     }
     public void waitForEmptyResultLabel()
     {
@@ -119,7 +131,9 @@ abstract public class SearchPageObject extends MainPageObject {
 
     public void assertThereIsNoResultOfSearch()
     {
-        this.assertElementNotPresent(SEARCH_RESULT_ELEMENT, "We supposed not to find any results");
+
+        this.assertElementNotPresent(SEARCH_RESULT_ELEMENT, "We supposed to find any results");
+
     }
 
     public void waitForPreviousSearchesButtonAndClick(String search_line)
@@ -135,11 +149,22 @@ abstract public class SearchPageObject extends MainPageObject {
     public void checkSearchResultsByText(String article_title)
     {
         String article_title_xpath = getResultSearchElement(article_title);
-        this.assertElementHasText(
-                article_title_xpath,
-                article_title,
-                "Article with '" + article_title + "' title not found"
-        );
+        if(Platform.getInstance().isIOS()) {
+
+            WebElement element = this.waitForElementPresent(article_title_xpath, "Cannot find element with provided locator", 4);
+            this.assertElementContainsText(
+                    element,
+                    article_title,
+                    "Article with '" + article_title + "' title not found"
+            );
+        } else {
+            this.assertElementHasText(
+                    article_title_xpath,
+                    article_title,
+                    "Article with '" + article_title + "' title not found"
+            );
+        }
+
     }
 
     public void checkSearchResultContainsSearchRequest(String search_query)

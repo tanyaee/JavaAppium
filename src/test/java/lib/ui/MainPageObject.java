@@ -188,7 +188,7 @@ public class MainPageObject {
     {
         int amount_of_elements = getAmountOfElements(locator);
         if (amount_of_elements > 0) {
-            String default_message = "An element '" + locator + "' supposed to be not present";
+            String default_message = "An element '" + locator + "' supposed to be present";
             throw new AssertionError(default_message + " " + error_message);
         }
     }

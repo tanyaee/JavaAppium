@@ -47,20 +47,22 @@ public class SearchTests extends CoreTestCase {
         SearchPageObject.checkSearchResultsByText("Oops!... I Did It Again (album)");
         SearchPageObject.checkSearchResultsByText("Oopiri");
         SearchPageObject.clickCancelSearch();
-        SearchPageObject.assertThereIsNoResultOfSearch();
+        if (Platform.getInstance().isAndroid()){
+            SearchPageObject.assertThereIsNoResultOfSearch();
+        }
 
     }
 
-    @Test
-    public void testCheckSearchWordInSearchResponse() {
-        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
-
-        SearchPageObject.initSearchInput();
-        String search_query = "OOP";
-        SearchPageObject.typeSearchLine(search_query);
-        SearchPageObject.checkSearchResultContainsSearchRequest(search_query);
-
-    }
+//    @Test
+//    public void testCheckSearchWordInSearchResponse() {
+//        SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
+//
+//        SearchPageObject.initSearchInput();
+//        String search_query = "OOP";
+//        SearchPageObject.typeSearchLine(search_query);
+//        SearchPageObject.checkSearchResultContainsSearchRequest(search_query);
+//
+//    }
 
     @Test
     public void testAmountOfNotEmptySearch()
@@ -99,11 +101,9 @@ public class SearchTests extends CoreTestCase {
         SearchPageObject.typeSearchLine("OOP");
         if(Platform.getInstance().isIOS()){
             SearchPageObject.waitForElementByTitleAndDescription("OOP", "Disambiguation page providing links to topics that could be referred to by the same search term");
-
         }
         else {
             SearchPageObject.waitForElementByTitleAndDescription("OOP", "Wikimedia disambiguation page");
-
         }
         SearchPageObject.waitForElementByTitleAndDescription("Oops!... I Did It Again (album)", "2000 studio album by Britney Spears");
         SearchPageObject.waitForElementByTitleAndDescription("Oopiri", "2016 film by Vamsi Paidipally");

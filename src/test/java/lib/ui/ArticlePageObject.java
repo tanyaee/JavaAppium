@@ -54,6 +54,7 @@ abstract public class ArticlePageObject extends MainPageObject {
 
     public String getArticleTitle()
     {
+
         WebElement title_element = waitForTitleElement();
         if(Platform.getInstance().isAndroid()){
             return title_element.getAttribute("text");
@@ -66,7 +67,7 @@ abstract public class ArticlePageObject extends MainPageObject {
     public String getArticleTitleIOS(String title)
     {
         WebElement title_element = waitForTitleElementIOS(title);
-            return title_element.getAttribute("name");
+        return title_element.getAttribute("name");
 
     }
 
