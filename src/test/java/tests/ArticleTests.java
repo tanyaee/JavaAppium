@@ -17,16 +17,17 @@ public class ArticleTests extends CoreTestCase {
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
-        SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
+        SearchPageObject.clickByArticleWithSubstring("bject-oriented programming language");
 
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         String article_title;
 
-        if (Platform.getInstance().isAndroid()){
-            article_title = ArticlePageObject.getArticleTitle();
-        } else {
+        if (Platform.getInstance().isIOS()) {
             ArticlePageObject.waitForTitleElementIOS("Java (programming language)");
             article_title = ArticlePageObject.getArticleTitleIOS("Java (programming language)");
+        } else {
+            article_title = ArticlePageObject.getArticleTitle();
+
         }
 
 
@@ -44,14 +45,15 @@ public class ArticleTests extends CoreTestCase {
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
-        SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
+        SearchPageObject.clickByArticleWithSubstring("bject-oriented programming language");
 
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
-        if(Platform.getInstance().isAndroid()){
-            ArticlePageObject.waitForTitleElement();
+        if(Platform.getInstance().isIOS()){
+            ArticlePageObject.waitForTitleElementIOS("Java (programming language)");
 
         } else {
-            ArticlePageObject.waitForTitleElementIOS("Java (programming language)");
+            ArticlePageObject.waitForTitleElement();
+
         }
         ArticlePageObject.swipeToFooter();
 
@@ -68,12 +70,12 @@ public class ArticleTests extends CoreTestCase {
         SearchPageObject.typeSearchLine(search_line);
         SearchPageObject.clickByArticleWithSubstring(search_line);
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
-        if(Platform.getInstance().isAndroid()){
-            ArticlePageObject.waitForTitleElement();
-
-        } else {
+        if(Platform.getInstance().isIOS()){
             ArticlePageObject.waitForTitleElementIOS(search_line);
+        } else {
+            ArticlePageObject.waitForTitleElement();
         }
+
         ArticlePageObject.checkArticleTitlePresent(search_line);
 
     }

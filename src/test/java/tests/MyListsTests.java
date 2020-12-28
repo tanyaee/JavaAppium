@@ -13,6 +13,9 @@ import java.util.SplittableRandom;
 
 public class MyListsTests extends CoreTestCase {
     private static final String name_of_folder = "Learning programming";
+    private static final String
+            login = "Taniatestit",
+            password = "1Q2w3e4r5t";
 
     @Test
     public void testSaveFirstArticleToMyList() {
@@ -21,25 +24,38 @@ public class MyListsTests extends CoreTestCase {
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
-        SearchPageObject.clickByArticleWithSubstring("Java (programming language)");
+        SearchPageObject.clickByArticleWithSubstring("bject-oriented programming language");
 
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         String article_title;
 
-        if(Platform.getInstance().isAndroid()){
-            ArticlePageObject.waitForTitleElement();
-            article_title = ArticlePageObject.getArticleTitle();
-
-        }else {
+        if(Platform.getInstance().isIOS()){
             ArticlePageObject.waitForTitleElementIOS("Java (programming language)");
             article_title = ArticlePageObject.getArticleTitleIOS("Java (programming language)");
-
+        }else {
+            ArticlePageObject.waitForTitleElement();
+            article_title = ArticlePageObject.getArticleTitle();
         }
 
-        if(Platform.getInstance().isAndroid()){
+        if (Platform.getInstance().isAndroid()){
             ArticlePageObject.addArticleToMyList(name_of_folder);
+        } else if (Platform.getInstance().isIOS()){
+            ArticlePageObject.addArticlesToMySaved();
+        } else if (Platform.getInstance().isMW()){
+            ArticlePageObject.addArticlesToMySaved();
 
-        }else{
+            AuthorizationPageObject Auth = new AuthorizationPageObject(driver);
+
+            Auth.clickAuthButton();
+            Auth.enterLoginData(login, password);
+            Auth.submitForm();
+            ArticlePageObject.waitForTitleElement();
+
+            assertEquals(
+                    "We are not on the same page after login",
+                    article_title,
+                    ArticlePageObject.getArticleTitle()
+            );
             ArticlePageObject.addArticlesToMySaved();
         }
         ArticlePageObject.closeArticle();
@@ -49,6 +65,7 @@ public class MyListsTests extends CoreTestCase {
         }
 
         NavigationUi NavigationUi = NavigationUIFactory.get(driver);
+        NavigationUi.openNavigation();
 
         NavigationUi.cLickMyLists();
 
