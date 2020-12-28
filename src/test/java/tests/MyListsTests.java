@@ -18,7 +18,7 @@ public class MyListsTests extends CoreTestCase {
             password = "1Q2w3e4r5t";
 
     @Test
-    public void testSaveFirstArticleToMyList() {
+    public void testSaveFirstArticleToMyList() throws InterruptedException {
 
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
@@ -42,11 +42,16 @@ public class MyListsTests extends CoreTestCase {
         } else if (Platform.getInstance().isIOS()){
             ArticlePageObject.addArticlesToMySaved();
         } else if (Platform.getInstance().isMW()){
+            Thread.sleep(1000);
+
             ArticlePageObject.addArticlesToMySaved();
+            Thread.sleep(1000);
 
             AuthorizationPageObject Auth = new AuthorizationPageObject(driver);
 
             Auth.clickAuthButton();
+            Thread.sleep(1000);
+
             Auth.enterLoginData(login, password);
             Auth.submitForm();
             ArticlePageObject.waitForTitleElement();
@@ -63,6 +68,7 @@ public class MyListsTests extends CoreTestCase {
         if(Platform.getInstance().isIOS()){
             SearchPageObject.clickCancelSearch();
         }
+        Thread.sleep(1000);
 
         NavigationUi NavigationUi = NavigationUIFactory.get(driver);
         NavigationUi.openNavigation();
@@ -73,17 +79,18 @@ public class MyListsTests extends CoreTestCase {
 
         if(Platform.getInstance().isAndroid()){
             MyListsPageObject.openFolderName(name_of_folder);
-        }else{
+        }else if (Platform.getInstance().isIOS()){
             MyListsPageObject.closeSyncYourSavedArticles();
         }
+        Thread.sleep(1000);
+
         MyListsPageObject.swipeByArticleToDelete(article_title);
 
     }
 
 
     @Test
-    public void testSaveTwoArticlesToOneFolder()
-    {
+    public void testSaveTwoArticlesToOneFolder() throws InterruptedException {
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.initSearchInput();

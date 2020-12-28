@@ -157,15 +157,11 @@ abstract public class ArticlePageObject extends MainPageObject {
 
     }
 
-    public void addArticlesToMySaved() {
+    public void addArticlesToMySaved() throws InterruptedException {
         if (Platform.getInstance().isMW()) {
             this.removeArticleFromSavedIfItAdded();
-            this.waitForElementPresent(OPTIONS_ADD_TO_MY_LIST_BUTTON, "Cannot find option to add article to reading list", 5);
-            this.waitForElementAndClick(OPTIONS_ADD_TO_MY_LIST_BUTTON, "Cannot find option to add article to reading list", 5);
-
-        } else {
-            this.waitForElementAndClick(OPTIONS_ADD_TO_MY_LIST_BUTTON, "Cannot find option to add article to reading list", 5);
         }
+        this.waitForElementAndClick(OPTIONS_ADD_TO_MY_LIST_BUTTON, "Cannot find option to add article to reading list", 3);
 
     }
 
