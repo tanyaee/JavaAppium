@@ -14,6 +14,7 @@ abstract public class SearchPageObject extends MainPageObject {
             SEARCH_INPUT,
             SEARCH_CANCEL_BUTTON,
             SEARCH_RESULT_BY_SUBSTRING_TPL,
+            SEARCH_RESULT_ARTICLE_TITLE_BY_SUBSTRING_TPL,
             SEARCH_RESULT_ELEMENT,
             SEARCH_EMPTY_RESULT_ELEMENT,
             SEARCH_PREVIOUS_SEARCH_REQUEST_TPL,
@@ -29,6 +30,11 @@ abstract public class SearchPageObject extends MainPageObject {
         return SEARCH_RESULT_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
     }
 
+    private static String getResultSearchArticleTitleElement(String substring)
+    {
+        return SEARCH_RESULT_ARTICLE_TITLE_BY_SUBSTRING_TPL.replace("{SUBSTRING}", substring);
+    }
+
     private static String getSearchPreviousSearchRequest(String search_line)
     {
         return SEARCH_PREVIOUS_SEARCH_REQUEST_TPL.replace("{SUBSTRING}", search_line);
@@ -38,10 +44,17 @@ abstract public class SearchPageObject extends MainPageObject {
 
     public void waitForElementByTitleAndDescription(String title, String description)
     {
-        String search_result_title_xpath = getResultSearchElement(title);
+        String search_result_title_xpath;
+        if (Platform.getInstance().isMW()){
+            search_result_title_xpath = getResultSearchArticleTitleElement(title);
+
+        } else {
+            search_result_title_xpath = getResultSearchElement(title);
+        }
         this.waitForElementPresent(search_result_title_xpath, "Cannot find search result with title " + title,5);
         String search_result_description_xpath = getResultSearchElement(description);
         this.waitForElementPresent(search_result_description_xpath, "Cannot find search result with description " + description,5);
+
     }
 
     public void initSearchInput()

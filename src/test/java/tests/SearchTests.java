@@ -99,11 +99,11 @@ public class SearchTests extends CoreTestCase {
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("OOP");
-        if(Platform.getInstance().isIOS()){
-            SearchPageObject.waitForElementByTitleAndDescription("OOP", "Disambiguation page providing links to topics that could be referred to by the same search term");
+        if(Platform.getInstance().isAndroid()){
+            SearchPageObject.waitForElementByTitleAndDescription("OOP", "Wikimedia disambiguation page");
         }
         else {
-            SearchPageObject.waitForElementByTitleAndDescription("OOP", "Wikimedia disambiguation page");
+            SearchPageObject.waitForElementByTitleAndDescription("OOP", "Disambiguation page providing links to topics that could be referred to by the same search term");
         }
         SearchPageObject.waitForElementByTitleAndDescription("Oops!... I Did It Again (album)", "2000 studio album by Britney Spears");
         SearchPageObject.waitForElementByTitleAndDescription("Oopiri", "2016 film by Vamsi Paidipally");
