@@ -2,6 +2,7 @@ package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
 import lib.Platform;
+import org.junit.Assert;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -80,7 +81,7 @@ abstract public class MyListsPageObject extends MainPageObject {
         if (Platform.getInstance().isIOS()) {
             this.waitForElementAndClick(SWIPE_ACTION_TO_DELETE, "Cannot find delete button", 4);
             //this.clickElementToTheRightUpperCorner(article_xpath, "Cannot find element to delete");
-        } else if (Platform.getInstance().isMW()){
+        } else if (Platform.getInstance().isMW()) {
             driver.navigate().refresh();
         }
         this.waitToArticleToDisappear(article_title);
@@ -107,5 +108,9 @@ abstract public class MyListsPageObject extends MainPageObject {
 
         WebElement element = this.waitForElementPresent(article_element_xpath, "Cannot find saved article eleemt by locator + " + article_element_xpath, 2);
         this.assertElementContainsText(element, article_title, "Cannot find elemant with title " + article_title);
+    }
+
+    public void assertArcticlePresentAndAddedToFavorite(String article_title) {
+        Assert.assertTrue("Cannot find star icon ", this.isElementPresent(getRemoveButtonByTitle(article_title)));
     }
 }

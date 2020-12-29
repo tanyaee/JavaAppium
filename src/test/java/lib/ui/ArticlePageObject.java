@@ -158,20 +158,27 @@ abstract public class ArticlePageObject extends MainPageObject {
     }
 
     public void addArticlesToMySaved() throws InterruptedException {
+
         if (Platform.getInstance().isMW()) {
+            Thread.sleep(1000);
             this.removeArticleFromSavedIfItAdded();
         }
+        Thread.sleep(1000);
+
         this.waitForElementAndClick(OPTIONS_ADD_TO_MY_LIST_BUTTON, "Cannot find option to add article to reading list", 3);
 
     }
 
-    public void removeArticleFromSavedIfItAdded() {
+    public void removeArticleFromSavedIfItAdded() throws InterruptedException {
+
+
         if (this.isElementPresent(OPTIONS_REMOVE_FROM_MY_LIST_BUTTON)) {
             this.waitForElementAndClick(
                     OPTIONS_REMOVE_FROM_MY_LIST_BUTTON,
                     "Cannot find and click button to remove article from my saved",
                     4
             );
+            Thread.sleep(1000);
             this.waitForElementPresent(
                     OPTIONS_ADD_TO_MY_LIST_BUTTON,
                     "Cannot find button to add an article to saved list after removing it from this list before",
